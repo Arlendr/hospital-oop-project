@@ -1,84 +1,103 @@
-public class Patient{
-    private int patientid;
-    private String fullname;
-    private int age;
-    private String bloodtype;
+public class Patient extends Person {
+    private String bloodType;
     private String diagnosis;
-    private boolean hasinsurance;
+    private boolean hasInsurance;
 
-    public Patient(int patientid, String fullname,int age,String bloodtype,
-                    String diagnosis, boolean hasinsurance){
-    this.patientid = patientid;
-    this.fullname = fullname;
-    this.age = age;
-    this.diagnosis = diagnosis;
-    this.hasinsurance = hasinsurance;
+    public Patient(int id, String name, int age, String contactInfo,
+                   String bloodType, String diagnosis, boolean hasInsurance) {
+        super(id, name, age, contactInfo);
+        this.bloodType = bloodType;
+        this.diagnosis = diagnosis;
+        this.hasInsurance = hasInsurance;
     }
 
-    public Patient(){
-        this.patientid = 0;
-        this.fullname = "unknown";
-        this.age = 0;
-        this.bloodtype = "unknown";
-        this.diagnosis = "not diagnosed";
-        this.hasinsurance = false;
+    public Patient() {
+        super();
+        this.bloodType = "Unknown";
+        this.diagnosis = "Not diagnosed";
+        this.hasInsurance = false;
     }
 
-    public int getPatientid() {
-        return patientid;
-    }
-
-    public String getFullname() {
-        return fullname;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public String getBloodtype() {
-        return bloodtype;
+    public String getBloodType() {
+        return bloodType;
     }
 
     public String getDiagnosis() {
         return diagnosis;
     }
 
-    public boolean getHasinsurance(){return hasinsurance;}
-
-    public void setPatientid(int patientid) {
-        this.patientid = patientid;
+    public boolean hasInsurance() {
+        return hasInsurance;
     }
 
-    public void setFullname(String fullname) {
-        this.fullname = fullname;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    public void setBloodtype(String bloodtype) {
-        this.bloodtype = bloodtype;
+    public void setBloodType(String bloodType) {
+        if (bloodType != null && !bloodType.trim().isEmpty()) {
+            this.bloodType = bloodType;
+        }
     }
 
     public void setDiagnosis(String diagnosis) {
-        this.diagnosis = diagnosis;
+        if (diagnosis != null && !diagnosis.trim().isEmpty()) {
+            this.diagnosis = diagnosis;
+        }
     }
 
-    public void setHasinsurance(boolean hasinsurance) {
-        this.hasinsurance = hasinsurance;
-    }
-    public boolean isMinor(){
-        return age < 18;
+    public void setHasInsurance(boolean hasInsurance) {
+        this.hasInsurance = hasInsurance;
     }
 
-    public String getage(){
-        if (age < 18) {
+    @Override
+    public void work() {
+        System.out.println("Patient " + getName() + " is recovering from " + diagnosis);
+    }
+
+    @Override
+    public void introduce() {
+        System.out.println("I am patient " + getName() + " (ID: " + getId() +
+                "). Diagnosis: " + diagnosis);
+    }
+
+    @Override
+    public String toString() {
+        String insuranceStatus = hasInsurance ? "Insured" : "Not Insured";
+        return super.toString() +
+                "\n  Blood Type: " + bloodType +
+                ", Diagnosis: " + diagnosis +
+                ", " + insuranceStatus;
+    }
+
+    public boolean needsEmergencyCare() {
+        return diagnosis != null &&
+                (diagnosis.toLowerCase().contains("emergency") ||
+                        diagnosis.toLowerCase().contains("severe") ||
+                        diagnosis.toLowerCase().contains("critical"));
+    }
+
+    public boolean needsSurgery() {
+        return diagnosis != null &&
+                diagnosis.toLowerCase().contains("surgery");
+    }
+
+    public String getTreatmentPlan() {
+        if (isChild()) {
+            return "Pediatric treatment for " + getName();
+        } else if (isSenior()) {
+            return "Geriatric treatment for " + getName();
+        }
+        return "Standard treatment for " + getName();
+    }
+
+    public String getAgeCategory() {
+        if (getAge() < 18) {
             return "child";
-        } else if (age < 65) {
-            return "adult";}
-        else {
-            return "senior";}
+        } else if (getAge() < 65) {
+            return "adult";
+        } else {
+            return "senior";
+        }
+    }
+
+    public boolean isMinor() {
+        return getAge() < 18;
     }
 }
