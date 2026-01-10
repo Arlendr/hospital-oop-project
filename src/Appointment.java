@@ -1,106 +1,78 @@
-
 public class Appointment {
-    private int appointmentid;
-    private String patientname;
-    private String doctorname;
+    private int appointmentId;
+    private String patientName;
+    private String doctorName;
     private String date;
     private String time;
     private String status;
-    private String roomnum;
+    private String roomNumber;
 
-
-    public Appointment(int appoimentid, String patientname, String doctorname, String date,
-                       String time, String status, String roomnum) {
-        this.appointmentid = appoimentid;
-        this.patientname = patientname;
-        this.doctorname = doctorname;
+    public Appointment(int appointmentId, String patientName, String doctorName, String date,
+                       String time, String status, String roomNumber) {
+        this.appointmentId = appointmentId;
+        this.patientName = patientName;
+        this.doctorName = doctorName;
         this.date = date;
         this.time = time;
         this.status = status;
-        this.roomnum = roomnum;
+        this.roomNumber = roomNumber;
     }
 
     public Appointment() {
-        this.appointmentid = 0;
-        this.patientname = "unknown";
-        this.doctorname = "unknown";
-        this.date = "2025-01-01";
-        this.time = "12:00";
-        this.status = "scheduled";
-        this.roomnum = "111";
+        this(0, "Unknown", "Unknown", "2025-01-01", "09:00", "Scheduled", "Room 101");
     }
 
-    public int getAppointmentid() {
-        return appointmentid;
+    // Геттеры
+    public int getAppointmentId() { return appointmentId; }
+    public String getPatientName() { return patientName; }
+    public String getDoctorName() { return doctorName; }
+    public String getDate() { return date; }
+    public String getTime() { return time; }
+    public String getStatus() { return status; }
+    public String getRoomNumber() { return roomNumber; }
+
+    // Сеттеры
+    public void setAppointmentId(int appointmentId) { this.appointmentId = appointmentId; }
+    public void setPatientName(String patientName) { this.patientName = patientName; }
+    public void setDoctorName(String doctorName) { this.doctorName = doctorName; }
+    public void setDate(String date) { this.date = date; }
+    public void setTime(String time) { this.time = time; }
+    public void setStatus(String status) { this.status = status; }
+    public void setRoomNumber(String roomNumber) { this.roomNumber = roomNumber; }
+
+    // Методы
+    public void reschedule(String newDate, String newTime) {
+        String oldDateTime = date + " " + time;
+        this.date = newDate;
+        this.time = newTime;
+        System.out.println("Appointment #" + appointmentId + " rescheduled");
+        System.out.println("From: " + oldDateTime);
+        System.out.println("To: " + newDate + " " + newTime);
     }
 
-    public String getPatientname() {
-        return patientname;
-    }
-
-    public String getDoctorname() {
-        return doctorname;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public String getTime() {
-        return time;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public String getRoomnum() {
-        return roomnum;
-    }
-
-    public void setAppointmentid(int apploimentid) {
-        this.appointmentid = apploimentid;
-    }
-
-    public void setPatientname(String patientname) {
-        this.patientname = patientname;
-    }
-
-    public void setDoctorname(String doctorname) {
-        this.doctorname = doctorname;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public void setRoomnum(String roomnum) {
-        this.roomnum = roomnum;
-    }
-
-    public void reschedule(String newdate, String newtime) {
-        String olddatetime = this.date + " " + this.time;
-        this.date = newdate;
-        this.time = newtime;
-        System.out.println("appointment" + appointmentid + "rescheduled");
-        System.out.println("from" + olddatetime);
-        System.out.println("to" + newdate + " " + newtime);
+    public void complete() {
+        if (status.equals("Scheduled") || status.equals("In-progress")) {
+            status = "Completed";
+            System.out.println("Appointment #" + appointmentId + " completed.");
+        }
     }
 
     public void cancel() {
         if (status.equals("Scheduled")) {
-            this.status = "Completed";
-            System.out.println("Appointment " + appointmentid + " marked as completed.");
-        } else {
-            System.out.println("Cannot complete appointment. Current status: " + status);
+            status = "Cancelled";
+            System.out.println("Appointment #" + appointmentId + " cancelled.");
         }
+    }
+
+    public boolean isScheduled() {
+        return status.equals("Scheduled");
+    }
+
+    @Override
+    public String toString() {
+        return "Appointment #" + appointmentId +
+                "\n  Patient: " + patientName + " | Doctor: " + doctorName +
+                "\n  Date/Time: " + date + " at " + time +
+                "\n  Status: " + status + " | Room: " + roomNumber;
     }
 }
