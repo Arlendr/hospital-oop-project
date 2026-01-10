@@ -1,90 +1,89 @@
-public class Doctor {
-    private int doctorid;
-    private String name;
+public class Doctor extends Person {
     private String specialization;
-    private int yearsOfExp;
-    private boolean  isonduty;
-    private int maxpatienceperday;
+    private int yearsOfExperience;
+    private boolean isOnDuty;
 
-
-
-    public Doctor(int doctorid,String name,String specialization,int yearsOfExp,boolean  isonduty,
-                  int maxpatienceperday){
-        this.doctorid = doctorid;
-        this.name = name;
+    public Doctor(int id, String name, int age, String contactInfo,
+                  String specialization, int yearsOfExperience, boolean isOnDuty) {
+        super(id, name, age, contactInfo);
         this.specialization = specialization;
-        this.yearsOfExp = yearsOfExp;
-        this.isonduty = isonduty;
-        this.maxpatienceperday = maxpatienceperday;
-
+        this.yearsOfExperience = yearsOfExperience;
+        this.isOnDuty = isOnDuty;
     }
 
-    public Doctor(){
-        this.doctorid = 0;
-        this.name = "unknown";
-        this.specialization = "general practitioner";
-        this.yearsOfExp = 0;
-        this.isonduty = false;
-        this.maxpatienceperday = 10;
-
-
-
-    }
-
-    public int getDoctorId() {return doctorid;}
-
-    public String getName() {
-        return name;
+    public Doctor() {
+        super();
+        this.specialization = "General Practitioner";
+        this.yearsOfExperience = 0;
+        this.isOnDuty = false;
     }
 
     public String getSpecialization() {
         return specialization;
     }
 
-    public int getYearsOfExp() {
-        return yearsOfExp;
+    public int getYearsOfExperience() {
+        return yearsOfExperience;
     }
 
-    public boolean isIsonduty() {
-        return isonduty;
-    }
-
-    public int getMaxpatienceperday() {
-        return maxpatienceperday;
-    }
-
-
-    public void setDoctorid(int newDoctorId){
-        this.doctorid = newDoctorId;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public boolean isOnDuty() {
+        return isOnDuty;
     }
 
     public void setSpecialization(String specialization) {
-        this.specialization = specialization;
+        if (specialization != null && !specialization.trim().isEmpty()) {
+            this.specialization = specialization;
+        }
     }
 
-    public void setYearsOfExp(int yearsOfExp) {
-        this.yearsOfExp = yearsOfExp;
+    public void setYearsOfExperience(int yearsOfExperience) {
+        this.yearsOfExperience = yearsOfExperience;
     }
 
-    public void setIsonduty(boolean isonduty) {
-        this.isonduty = isonduty;
+    public void setOnDuty(boolean onDuty) {
+        isOnDuty = onDuty;
     }
 
-    public void setMaxpatienceperday(int maxpatienceperday) {
-        this.maxpatienceperday = maxpatienceperday;
+    @Override
+    public void work() {
+        System.out.println("Dr. " + getName() + " is consulting patients in " + specialization);
     }
 
-    public boolean isexperienced(){
-        return yearsOfExp>10;
+    @Override
+    public void introduce() {
+        System.out.println("I am Dr. " + getName() + ", " + specialization +
+                " with " + yearsOfExperience + " years of experience");
     }
-    public boolean canperformsurgery(){
-        return specialization.equals("surgeon");
+
+    @Override
+    public String toString() {
+        String dutyStatus = isOnDuty ? "On Duty" : "Off Duty";
+        return super.toString() +
+                "\n  Specialization: " + specialization +
+                ", Experience: " + yearsOfExperience + " years" +
+                ", " + dutyStatus;
     }
 
+    public boolean isExperienced() {
+        return yearsOfExperience >= 10;
+    }
 
+    public boolean canPerformSurgery() {
+        String spec = specialization.toLowerCase();
+        return spec.contains("surgeon") || spec.contains("surgery");
+    }
 
+    public void prescribeMedication(String patientName, String medication) {
+        System.out.println("Dr. " + getName() + " prescribes " + medication + " to " + patientName);
+    }
+
+    public String getExperienceLevel() {
+        if (yearsOfExperience < 3) {
+            return "Junior";
+        } else if (yearsOfExperience < 10) {
+            return "Middle";
+        } else {
+            return "Senior";
+        }
+    }
 }
