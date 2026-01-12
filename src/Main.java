@@ -20,7 +20,7 @@ public class Main {
         boolean running = true;
         while (running) {
             displayMenu();
-            System.out.print("\nEnter your choice: ");
+            System.out.print("Enter your choice: ");
 
             if (!scanner.hasNextInt()) {
                 System.out.println("Invalid input! Please enter a number.");
@@ -38,18 +38,16 @@ public class Main {
                 case 4 -> viewAllDoctors();
                 case 5 -> addAppointment();
                 case 6 -> viewAllAppointments();
-                case 7 -> demonstratePolymorphism();
-                case 8 -> demonstrateInheritance();
-                case 9 -> showSystemInfo();
+                case 7 -> showSystemInfo();
                 case 0 -> {
-                    System.out.println("\nThank you for using Hospital System!");
+                    System.out.println("Thank you for using Hospital System!");
                     running = false;
                 }
                 default -> System.out.println("Invalid choice! Please try again.");
             }
 
             if (running) {
-                System.out.print("\nPress Enter to continue...");
+                System.out.print("Press Enter to continue...");
                 scanner.nextLine();
             }
         }
@@ -66,9 +64,7 @@ public class Main {
         System.out.println("4. 📋 View All Doctors");
         System.out.println("5. 📅 Add New Appointment");
         System.out.println("6. 📋 View All Appointments");
-        System.out.println("7. 🎭 Demonstrate Polymorphism");
-        System.out.println("8. 📚 Demonstrate Inheritance");
-        System.out.println("9. 📊 System Information");
+        System.out.println("7. 📊 System Information");
         System.out.println("0. ❌ Exit");
         System.out.println("════════════════════════════════════════");
     }
@@ -148,7 +144,6 @@ public class Main {
     }
 
     private static void viewAllPatients() {
-        System.out.println("\n════════════════════════════════════════");
         System.out.println("          ALL PATIENTS");
         System.out.println("════════════════════════════════════════");
 
@@ -175,7 +170,6 @@ public class Main {
     }
 
     private static void addDoctor() {
-        System.out.println("\n════════════════════════════════════════");
         System.out.println("         ADD NEW DOCTOR");
         System.out.println("════════════════════════════════════════");
 
@@ -211,7 +205,6 @@ public class Main {
     }
 
     private static void viewAllDoctors() {
-        System.out.println("\n════════════════════════════════════════");
         System.out.println("           ALL DOCTORS");
         System.out.println("════════════════════════════════════════");
 
@@ -238,7 +231,6 @@ public class Main {
     }
 
     private static void addAppointment() {
-        System.out.println("\n════════════════════════════════════════");
         System.out.println("       ADD NEW APPOINTMENT");
         System.out.println("════════════════════════════════════════");
 
@@ -294,7 +286,6 @@ public class Main {
     }
 
     private static void viewAllAppointments() {
-        System.out.println("\n════════════════════════════════════════");
         System.out.println("         ALL APPOINTMENTS");
         System.out.println("════════════════════════════════════════");
 
@@ -321,74 +312,9 @@ public class Main {
         }
     }
 
-    private static void demonstratePolymorphism() {
-        System.out.println("\n════════════════════════════════════════");
-        System.out.println("      POLYMORPHISM DEMONSTRATION");
-        System.out.println("════════════════════════════════════════");
 
-        if (allPeople.isEmpty()) {
-            System.out.println("No people in system.");
-            return;
-        }
-
-        System.out.println("ArrayList<Person> contains " + allPeople.size() + " objects\n");
-
-        System.out.println("1. Calling work() method:");
-        System.out.println("-".repeat(40));
-        for (Person person : allPeople) {
-            System.out.print("• ");
-            person.work();
-        }
-
-        System.out.println("\n2. Using instanceof and downcasting:");
-        System.out.println("-".repeat(40));
-        for (Person person : allPeople) {
-            if (person instanceof Patient) {
-                Patient p = (Patient) person;
-                System.out.println("Patient: " + p.getName() +
-                        " | Diagnosis: " + p.getDiagnosis());
-            } else if (person instanceof Doctor) {
-                Doctor d = (Doctor) person;
-                System.out.println("Doctor: Dr. " + d.getName() +
-                        " | Specialization: " + d.getSpecialization());
-            }
-        }
-    }
-
-    private static void demonstrateInheritance() {
-        System.out.println("\n════════════════════════════════════════");
-        System.out.println("       INHERITANCE DEMONSTRATION");
-        System.out.println("════════════════════════════════════════");
-
-        System.out.println("🎯 Week 4 Requirements Check:");
-        System.out.println("-".repeat(40));
-
-        System.out.println("✅ 1. INHERITANCE:");
-        System.out.println("   • Patient extends Person");
-        System.out.println("   • Doctor extends Person");
-
-        System.out.println("\n✅ 2. METHOD OVERRIDING:");
-        System.out.println("   • work() method overridden in both classes");
-        System.out.println("   • introduce() method overridden");
-        System.out.println("   • toString() method overridden");
-
-        System.out.println("\n✅ 3. POLYMORPHISM:");
-        System.out.println("   • ArrayList<Person> stores both types");
-        System.out.println("   • Same method calls, different behavior");
-
-        System.out.println("\n✅ 4. SUPER KEYWORD:");
-        System.out.println("   • Patient constructor: super(id, name, age, contact)");
-        System.out.println("   • Doctor constructor: super(id, name, age, contact)");
-
-        System.out.println("\n✅ 5. INSTANCEOF & DOWNCASTING:");
-        System.out.println("   • Used to access child-specific methods");
-        System.out.println("   • Example: if (person instanceof Patient)");
-
-        System.out.println("\n🎯 All Week 4 requirements are satisfied!");
-    }
 
     private static void showSystemInfo() {
-        System.out.println("\n════════════════════════════════════════");
         System.out.println("        SYSTEM INFORMATION");
         System.out.println("════════════════════════════════════════");
 
