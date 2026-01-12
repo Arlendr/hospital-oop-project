@@ -1,177 +1,435 @@
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Main {
+    private static ArrayList<Person> allPeople = new ArrayList<>();
+    private static ArrayList<Patient> patients = new ArrayList<>();
+    private static ArrayList<Doctor> doctors = new ArrayList<>();
+    private static ArrayList<Appointment> appointments = new ArrayList<>();
+
+    private static Scanner scanner = new Scanner(System.in);
+    private static int nextId = 1000;
+
     public static void main(String[] args) {
-        System.out.println("🏥 HOSPITAL SYSTEM - WEEK 4: INHERITANCE & POLYMORPHISM\n");
+        System.out.println("╔════════════════════════════════════════╗");
+        System.out.println("║      🏥 HOSPITAL MANAGEMENT SYSTEM    ║");
+        System.out.println("╚════════════════════════════════════════╝\n");
 
+        loadSampleData();
 
-        Patient patient1 = new Patient(1001, "Aidar", 30, "+77011234567",
+        boolean running = true;
+        while (running) {
+            displayMenu();
+            System.out.print("\nEnter your choice: ");
+
+            if (!scanner.hasNextInt()) {
+                System.out.println("Invalid input! Please enter a number.");
+                scanner.nextLine();
+                continue;
+            }
+
+            int choice = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (choice) {
+                case 1 -> addPatient();
+                case 2 -> viewAllPatients();
+                case 3 -> addDoctor();
+                case 4 -> viewAllDoctors();
+                case 5 -> addAppointment();
+                case 6 -> viewAllAppointments();
+                case 7 -> demonstratePolymorphism();
+                case 8 -> demonstrateInheritance();
+                case 9 -> showSystemInfo();
+                case 0 -> {
+                    System.out.println("\nThank you for using Hospital System!");
+                    running = false;
+                }
+                default -> System.out.println("Invalid choice! Please try again.");
+            }
+
+            if (running) {
+                System.out.print("\nPress Enter to continue...");
+                scanner.nextLine();
+            }
+        }
+        scanner.close();
+    }
+
+    private static void displayMenu() {
+        System.out.println("\n════════════════════════════════════════");
+        System.out.println("           MAIN MENU");
+        System.out.println("════════════════════════════════════════");
+        System.out.println("1. 👤 Add New Patient");
+        System.out.println("2. 📋 View All Patients");
+        System.out.println("3. 👨‍⚕️ Add New Doctor");
+        System.out.println("4. 📋 View All Doctors");
+        System.out.println("5. 📅 Add New Appointment");
+        System.out.println("6. 📋 View All Appointments");
+        System.out.println("7. 🎭 Demonstrate Polymorphism");
+        System.out.println("8. 📚 Demonstrate Inheritance");
+        System.out.println("9. 📊 System Information");
+        System.out.println("0. ❌ Exit");
+        System.out.println("════════════════════════════════════════");
+    }
+
+    private static void loadSampleData() {
+        System.out.println("Loading sample data...\n");
+
+        // Создаем тестовых пациентов
+        Patient p1 = new Patient(1001, "Aidar", 30, "+77011234567",
                 "A+", "Hypertension", true);
-        Patient patient2 = new Patient(1002, "Asel", 25, "+77012345678",
+        Patient p2 = new Patient(1002, "Asel", 25, "+77012345678",
                 "B-", "Emergency: Severe Migraine", false);
-        Patient patient3 = new Patient(1003, "Baurzhan", 16, "+77013456789",
+        Patient p3 = new Patient(1003, "Baurzhan", 16, "+77013456789",
                 "O+", "Appendicitis Surgery", true);
 
-        Doctor doctor1 = new Doctor(2001, "Zhumabayev", 45, "+77014567890",
+        Doctor d1 = new Doctor(2001, "Zhumabayev", 45, "+77014567890",
                 "Cardiology", 15, true);
-        Doctor doctor2 = new Doctor(2002, "Ahmetova", 38, "+77015678901",
+        Doctor d2 = new Doctor(2002, "Ahmetova", 38, "+77015678901",
                 "Surgery", 8, true);
 
-        Appointment appointment1 = new Appointment(3001, "Aidar", "Dr. Zhumabayev",
+        Appointment a1 = new Appointment(3001, "Aidar", "Dr. Zhumabayev",
                 "2025-03-10", "10:00", "Scheduled", "Room 301");
-        Appointment appointment2 = new Appointment(3002, "Baurzhan", "Dr. Ahmetova",
+        Appointment a2 = new Appointment(3002, "Baurzhan", "Dr. Ahmetova",
                 "2025-03-11", "09:00", "Scheduled", "Room 205");
 
+        patients.add(p1); allPeople.add(p1);
+        patients.add(p2); allPeople.add(p2);
+        patients.add(p3); allPeople.add(p3);
+
+        doctors.add(d1); allPeople.add(d1);
+        doctors.add(d2); allPeople.add(d2);
+
+        appointments.add(a1);
+        appointments.add(a2);
+
+        nextId = 4001;
+        System.out.println("✅ Sample data loaded:");
+        System.out.println("   Patients: " + patients.size());
+        System.out.println("   Doctors: " + doctors.size());
+        System.out.println("   Appointments: " + appointments.size());
+    }
 
 
-        System.out.println("📚 1. POLYMORPHISM: ONE ARRAYLIST FOR ALL PERSON TYPES");
-        System.out.println("=".repeat(60));
+    private static void addPatient() {
+        System.out.println("\n════════════════════════════════════════");
+        System.out.println("        ADD NEW PATIENT");
+        System.out.println("════════════════════════════════════════");
 
-        ArrayList<Person> allPeople = new ArrayList<>();
+        System.out.print("Name: ");
+        String name = scanner.nextLine();
 
+        System.out.print("Age: ");
+        int age = scanner.nextInt();
+        scanner.nextLine();
 
-        allPeople.add(patient1);
-        allPeople.add(patient2);
-        allPeople.add(patient3);
-        allPeople.add(doctor1);
-        allPeople.add(doctor2);
+        System.out.print("Contact: ");
+        String contact = scanner.nextLine();
 
-        System.out.println("Total people in list: " + allPeople.size());
-        System.out.println("List contains: Patients, Doctors (all are Person objects)\n");
+        System.out.print("Blood Type (A+, A-, B+, B-, AB+, AB-, O+, O-): ");
+        String bloodType = scanner.nextLine();
 
+        System.out.print("Diagnosis: ");
+        String diagnosis = scanner.nextLine();
 
+        System.out.print("Has Insurance? (true/false): ");
+        boolean hasInsurance = scanner.nextBoolean();
+        scanner.nextLine();
 
-        System.out.println("✨ 2. METHOD OVERRIDING DEMONSTRATION");
-        System.out.println("=".repeat(60));
+        int id = ++nextId;
+        Patient patient = new Patient(id, name, age, contact, bloodType, diagnosis, hasInsurance);
 
-        System.out.println("A. Calling work() on all people:");
-        System.out.println("-".repeat(40));
-        for (Person person : allPeople) {
-            person.work();
+        patients.add(patient);
+        allPeople.add(patient);
+
+        System.out.println("\n✅ Patient added successfully!");
+        System.out.println("ID: " + id + " | Name: " + name);
+    }
+
+    private static void viewAllPatients() {
+        System.out.println("\n════════════════════════════════════════");
+        System.out.println("          ALL PATIENTS");
+        System.out.println("════════════════════════════════════════");
+
+        if (patients.isEmpty()) {
+            System.out.println("No patients found.");
+            return;
         }
 
-        System.out.println("\nB. Calling introduce() on all people:");
-        System.out.println("-".repeat(40));
-        for (Person person : allPeople) {
-            person.introduce();
-        }
+        System.out.println("Total: " + patients.size() + " patients\n");
 
-        System.out.println("\nC. Calling toString() on all people:");
-        System.out.println("-".repeat(40));
-        for (Person person : allPeople) {
-            System.out.println(person);
-            System.out.println();
-        }
+        for (int i = 0; i < patients.size(); i++) {
+            Patient p = patients.get(i);
+            System.out.println("[" + (i + 1) + "] " + p.getName() +
+                    " (ID: " + p.getId() + ", Age: " + p.getAge() + ")");
+            System.out.println("   Diagnosis: " + p.getDiagnosis());
+            System.out.println("   Blood Type: " + p.getBloodType());
+            System.out.println("   Insurance: " + (p.hasInsurance() ? "Yes" : "No"));
 
-
-        System.out.println("🔍 3. INSTANCEOF AND DOWNCASTING");
-        System.out.println("=".repeat(60));
-
-        int patientCount = 0;
-        int doctorCount = 0;
-
-        for (Person person : allPeople) {
-            if (person instanceof Patient) {
-                patientCount++;
-                Patient patient = (Patient) person;
-                System.out.println("Patient #" + patientCount + ": " + patient.getName());
-                System.out.println("  Diagnosis: " + patient.getDiagnosis());
-                System.out.println("  Needs emergency care: " + patient.needsEmergencyCare());
-                System.out.println("  Treatment plan: " + patient.getTreatmentPlan());
-
-            } else if (person instanceof Doctor) {
-                doctorCount++;
-                Doctor doctor = (Doctor) person;
-                System.out.println("Doctor #" + doctorCount + ": Dr. " + doctor.getName());
-                System.out.println("  Specialization: " + doctor.getSpecialization());
-                System.out.println("  Can perform surgery: " + doctor.canPerformSurgery());
-                System.out.println("  Experience level: " + doctor.getExperienceLevel());
+            if (p.needsEmergencyCare()) {
+                System.out.println("   ⚠️  EMERGENCY CASE");
             }
             System.out.println();
         }
+    }
 
+    private static void addDoctor() {
+        System.out.println("\n════════════════════════════════════════");
+        System.out.println("         ADD NEW DOCTOR");
+        System.out.println("════════════════════════════════════════");
 
-        System.out.println("⚙️ 4. CHILD-SPECIFIC METHODS");
-        System.out.println("=".repeat(60));
+        System.out.print("Name: ");
+        String name = scanner.nextLine();
 
-        System.out.println("Patient-specific methods:");
-        System.out.println("Patient 1: " + patient1.getName());
-        System.out.println("  Blood type: " + patient1.getBloodType());
-        System.out.println("  Age category: " + patient1.getAgeCategory());
-        System.out.println("  Needs surgery: " + patient1.needsSurgery());
+        System.out.print("Age: ");
+        int age = scanner.nextInt();
+        scanner.nextLine();
 
-        System.out.println("\nDoctor-specific methods:");
-        doctor1.prescribeMedication(patient1.getName(), "Aspirin");
-        System.out.println("Dr. " + doctor1.getName() + " is experienced: " + doctor1.isExperienced());
+        System.out.print("Contact: ");
+        String contact = scanner.nextLine();
 
+        System.out.print("Specialization: ");
+        String specialization = scanner.nextLine();
 
-        System.out.println("\n📐 5. INHERITANCE AND SUPER KEYWORD");
-        System.out.println("=".repeat(60));
+        System.out.print("Years of Experience: ");
+        int experience = scanner.nextInt();
+        scanner.nextLine();
 
-        System.out.println("A. Patient class hierarchy:");
-        System.out.println("   Patient extends Person");
-        System.out.println("   Uses super() in constructor");
-        System.out.println("   Overrides: work(), introduce(), toString()");
+        System.out.print("On Duty? (true/false): ");
+        boolean onDuty = scanner.nextBoolean();
+        scanner.nextLine();
 
-        System.out.println("\nB. Doctor class hierarchy:");
-        System.out.println("   Doctor extends Person");
-        System.out.println("   Uses super() in constructor");
-        System.out.println("   Overrides: work(), introduce(), toString()");
+        int id = ++nextId + 1000;
+        Doctor doctor = new Doctor(id, name, age, contact, specialization, experience, onDuty);
 
-        System.out.println("\nC. Fields inherited from Person:");
-        System.out.println("   Both Patient and Doctor have:");
-        System.out.println("   - id, name, age, contactInfo (protected in Person)");
-        System.out.println("   - getters/setters for these fields");
+        doctors.add(doctor);
+        allPeople.add(doctor);
 
+        System.out.println("\n✅ Doctor added successfully!");
+        System.out.println("ID: " + id + " | Dr. " + name);
+    }
 
-        System.out.println("\n📅 6. APPOINTMENTS (WEEK 3 CODE)");
-        System.out.println("=".repeat(60));
+    private static void viewAllDoctors() {
+        System.out.println("\n════════════════════════════════════════");
+        System.out.println("           ALL DOCTORS");
+        System.out.println("════════════════════════════════════════");
 
-        System.out.println("Appointment 1:");
-        System.out.println(appointment1);
+        if (doctors.isEmpty()) {
+            System.out.println("No doctors found.");
+            return;
+        }
 
-        System.out.println("\nAppointment 2:");
-        System.out.println(appointment2);
+        System.out.println("Total: " + doctors.size() + " doctors\n");
 
-        System.out.println("\nModifying appointments:");
-        appointment1.complete();
-        appointment2.reschedule("2025-03-12", "14:30");
+        for (int i = 0; i < doctors.size(); i++) {
+            Doctor d = doctors.get(i);
+            System.out.println("[" + (i + 1) + "] Dr. " + d.getName() +
+                    " (ID: " + d.getId() + ")");
+            System.out.println("   Specialization: " + d.getSpecialization());
+            System.out.println("   Experience: " + d.getYearsOfExperience() + " years");
+            System.out.println("   Status: " + (d.isOnDuty() ? "On Duty" : "Off Duty"));
 
+            if (d.canPerformSurgery()) {
+                System.out.println("   🔪 SURGEON");
+            }
+            System.out.println();
+        }
+    }
 
-        System.out.println("\n" + "=".repeat(70));
-        System.out.println("                     SUMMARY - WEEK 4 REQUIREMENTS");
-        System.out.println("=".repeat(70));
+    private static void addAppointment() {
+        System.out.println("\n════════════════════════════════════════");
+        System.out.println("       ADD NEW APPOINTMENT");
+        System.out.println("════════════════════════════════════════");
+
+        if (patients.isEmpty() || doctors.isEmpty()) {
+            System.out.println("❌ Need at least one patient and one doctor!");
+            return;
+        }
+
+        System.out.println("Select Patient:");
+        for (int i = 0; i < patients.size(); i++) {
+            System.out.println((i + 1) + ". " + patients.get(i).getName());
+        }
+        System.out.print("Patient number: ");
+        int patientIndex = scanner.nextInt() - 1;
+        scanner.nextLine();
+
+        if (patientIndex < 0 || patientIndex >= patients.size()) {
+            System.out.println("Invalid patient selection!");
+            return;
+        }
+        String patientName = patients.get(patientIndex).getName();
+
+        System.out.println("\nSelect Doctor:");
+        for (int i = 0; i < doctors.size(); i++) {
+            Doctor d = doctors.get(i);
+            System.out.println((i + 1) + ". Dr. " + d.getName() + " (" + d.getSpecialization() + ")");
+        }
+        System.out.print("Doctor number: ");
+        int doctorIndex = scanner.nextInt() - 1;
+        scanner.nextLine();
+
+        if (doctorIndex < 0 || doctorIndex >= doctors.size()) {
+            System.out.println("Invalid doctor selection!");
+            return;
+        }
+        String doctorName = "Dr. " + doctors.get(doctorIndex).getName();
+
+        System.out.print("Date (YYYY-MM-DD): ");
+        String date = scanner.nextLine();
+
+        System.out.print("Time (HH:MM): ");
+        String time = scanner.nextLine();
+
+        System.out.print("Room: ");
+        String room = scanner.nextLine();
+
+        int id = ++nextId + 2000;
+        Appointment appointment = new Appointment(id, patientName, doctorName, date, time, "Scheduled", room);
+        appointments.add(appointment);
+
+        System.out.println("\n✅ Appointment added successfully!");
+        System.out.println("ID: " + id + " | " + patientName + " with " + doctorName);
+    }
+
+    private static void viewAllAppointments() {
+        System.out.println("\n════════════════════════════════════════");
+        System.out.println("         ALL APPOINTMENTS");
+        System.out.println("════════════════════════════════════════");
+
+        if (appointments.isEmpty()) {
+            System.out.println("No appointments found.");
+            return;
+        }
+
+        System.out.println("Total: " + appointments.size() + " appointments\n");
+
+        for (int i = 0; i < appointments.size(); i++) {
+            Appointment a = appointments.get(i);
+            System.out.println("[" + (i + 1) + "] Appointment #" + a.getAppointmentId());
+            System.out.println("   Patient: " + a.getPatientName());
+            System.out.println("   Doctor: " + a.getDoctorName());
+            System.out.println("   Date: " + a.getDate() + " at " + a.getTime());
+            System.out.println("   Status: " + a.getStatus());
+            System.out.println("   Room: " + a.getRoomNumber());
+
+            if (a.getStatus().equals("Scheduled")) {
+                System.out.println("   ⏰ UPCOMING");
+            }
+            System.out.println();
+        }
+    }
+
+    private static void demonstratePolymorphism() {
+        System.out.println("\n════════════════════════════════════════");
+        System.out.println("      POLYMORPHISM DEMONSTRATION");
+        System.out.println("════════════════════════════════════════");
+
+        if (allPeople.isEmpty()) {
+            System.out.println("No people in system.");
+            return;
+        }
+
+        System.out.println("ArrayList<Person> contains " + allPeople.size() + " objects\n");
+
+        System.out.println("1. Calling work() method:");
+        System.out.println("-".repeat(40));
+        for (Person person : allPeople) {
+            System.out.print("• ");
+            person.work();
+        }
+
+        System.out.println("\n2. Using instanceof and downcasting:");
+        System.out.println("-".repeat(40));
+        for (Person person : allPeople) {
+            if (person instanceof Patient) {
+                Patient p = (Patient) person;
+                System.out.println("Patient: " + p.getName() +
+                        " | Diagnosis: " + p.getDiagnosis());
+            } else if (person instanceof Doctor) {
+                Doctor d = (Doctor) person;
+                System.out.println("Doctor: Dr. " + d.getName() +
+                        " | Specialization: " + d.getSpecialization());
+            }
+        }
+    }
+
+    private static void demonstrateInheritance() {
+        System.out.println("\n════════════════════════════════════════");
+        System.out.println("       INHERITANCE DEMONSTRATION");
+        System.out.println("════════════════════════════════════════");
+
+        System.out.println("🎯 Week 4 Requirements Check:");
+        System.out.println("-".repeat(40));
 
         System.out.println("✅ 1. INHERITANCE:");
         System.out.println("   • Patient extends Person");
         System.out.println("   • Doctor extends Person");
-        System.out.println("   • Both use super() in constructors");
 
         System.out.println("\n✅ 2. METHOD OVERRIDING:");
-        System.out.println("   • @Override work(), introduce(), toString()");
-        System.out.println("   • Each class has different implementation");
+        System.out.println("   • work() method overridden in both classes");
+        System.out.println("   • introduce() method overridden");
+        System.out.println("   • toString() method overridden");
 
         System.out.println("\n✅ 3. POLYMORPHISM:");
-        System.out.println("   • ArrayList<Person> stores different types");
-        System.out.println("   • Same method calls produce different behavior");
+        System.out.println("   • ArrayList<Person> stores both types");
+        System.out.println("   • Same method calls, different behavior");
 
-        System.out.println("\n✅ 4. INSTANCEOF AND DOWNCASTING:");
-        System.out.println("   • instanceof used to check object type");
-        System.out.println("   • Downcasting: (Patient) person, (Doctor) person");
-        System.out.println("   • Access child-specific methods after casting");
+        System.out.println("\n✅ 4. SUPER KEYWORD:");
+        System.out.println("   • Patient constructor: super(id, name, age, contact)");
+        System.out.println("   • Doctor constructor: super(id, name, age, contact)");
 
-        System.out.println("\n✅ 5. PROTECTED FIELDS:");
-        System.out.println("   • Person has protected fields");
-        System.out.println("   • Child classes can access them directly");
+        System.out.println("\n✅ 5. INSTANCEOF & DOWNCASTING:");
+        System.out.println("   • Used to access child-specific methods");
+        System.out.println("   • Example: if (person instanceof Patient)");
 
-        System.out.println("\n✅ 6. WEEK 3 CODE INTEGRATED:");
-        System.out.println("   • Appointment class (from Week 3)");
-        System.out.println("   • Works alongside inheritance structure");
+        System.out.println("\n🎯 All Week 4 requirements are satisfied!");
+    }
 
-        System.out.println("\n" + "=".repeat(70));
-        System.out.println("Total Patients: " + patientCount + " | Total Doctors: " + doctorCount);
-        System.out.println("Total Appointments: 2");
-        System.out.println("ALL WEEK 4 REQUIREMENTS COMPLETED! 🎯");
+    private static void showSystemInfo() {
+        System.out.println("\n════════════════════════════════════════");
+        System.out.println("        SYSTEM INFORMATION");
+        System.out.println("════════════════════════════════════════");
 
+        System.out.println("📊 Statistics:");
+        System.out.println("-".repeat(40));
+        System.out.println("Total People: " + allPeople.size());
+        System.out.println("Patients: " + patients.size());
+        System.out.println("Doctors: " + doctors.size());
+        System.out.println("Appointments: " + appointments.size());
+
+        System.out.println("\n👥 Patient Statistics:");
+        System.out.println("-".repeat(40));
+        int emergency = 0;
+        int insured = 0;
+        for (Patient p : patients) {
+            if (p.needsEmergencyCare()) emergency++;
+            if (p.hasInsurance()) insured++;
+        }
+        System.out.println("Emergency Cases: " + emergency);
+        System.out.println("Insured Patients: " + insured + "/" + patients.size());
+
+        System.out.println("\n👨‍⚕️ Doctor Statistics:");
+        System.out.println("-".repeat(40));
+        int surgeons = 0;
+        int onDuty = 0;
+        for (Doctor d : doctors) {
+            if (d.canPerformSurgery()) surgeons++;
+            if (d.isOnDuty()) onDuty++;
+        }
+        System.out.println("Surgeons: " + surgeons);
+        System.out.println("On Duty: " + onDuty + "/" + doctors.size());
+
+        System.out.println("\n📅 Appointment Statistics:");
+        System.out.println("-".repeat(40));
+        int scheduled = 0;
+        int completed = 0;
+        for (Appointment a : appointments) {
+            if (a.getStatus().equals("Scheduled")) scheduled++;
+            if (a.getStatus().equals("Completed")) completed++;
+        }
+        System.out.println("Scheduled: " + scheduled);
+        System.out.println("Completed: " + completed);
     }
 }
