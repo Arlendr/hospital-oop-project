@@ -3,12 +3,10 @@ package model;
 public class Patient extends Person implements Treatable {
     private String diagnosis;
 
-    // Конструктор с ID
     public Patient(int id, String name, int age) {
         super(id, name, age);
     }
 
-    // Конструктор без ID
     public Patient(String name, int age) {
         super(name, age);
     }
@@ -23,7 +21,6 @@ public class Patient extends Person implements Treatable {
         System.out.println("Resting and recovering from " + diagnosis);
     }
 
-    // Реализация интерфейса Treatable
     @Override
     public void performTreatment() {
         System.out.println("Receiving treatment for: " + diagnosis);
@@ -34,7 +31,7 @@ public class Patient extends Person implements Treatable {
         return "Patient Treatment - Diagnosis: " + diagnosis + ", Patient: " + getName();
     }
 
-    // Геттер и сеттер
+
     public String getDiagnosis() { return diagnosis; }
 
     public void setDiagnosis(String diagnosis) {

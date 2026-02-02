@@ -3,12 +3,10 @@ package model;
 public class Doctor extends Person {
     private String specialization;
 
-    // Конструктор с ID
     public Doctor(int id, String name, int age) {
         super(id, name, age);
     }
 
-    // Конструктор без ID
     public Doctor(String name, int age) {
         super(name, age);
     }
@@ -23,7 +21,6 @@ public class Doctor extends Person {
         System.out.println("Examining patients and providing medical care");
     }
 
-    // Геттер и сеттер
     public String getSpecialization() { return specialization; }
 
     public void setSpecialization(String specialization) {

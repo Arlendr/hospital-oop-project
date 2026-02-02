@@ -5,28 +5,23 @@ public abstract class Person {
     private String name;
     private int age;
 
-    // Конструктор с ID
     public Person(int id, String name, int age) {
         setId(id);
         setName(name);
         setAge(age);
     }
 
-    // Конструктор без ID (для авто-генерации)
     public Person(String name, int age) {
         this(0, name, age); // ID = 0 означает авто-генерацию
     }
 
-    // Абстрактные методы
     public abstract String getRole();
     public abstract void performDuties();
 
-    // Геттеры
     public int getId() { return id; }
     public String getName() { return name; }
     public int getAge() { return age; }
 
-    // Сеттеры с валидацией
     public void setId(int id) {
         if (id < 0) {
             throw new IllegalArgumentException("ID cannot be negative!");

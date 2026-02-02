@@ -131,7 +131,6 @@ public class HospitalMenuImpl implements HospitalMenu {
         }
     }
 
-    // ========== ADD PATIENT WITH MANUAL ID ==========
 
     private void addPatientManualId() throws InvalidMedicalDataException {
         System.out.println("\n" + "─".repeat(40));
@@ -150,7 +149,6 @@ public class HospitalMenuImpl implements HospitalMenu {
                 return;
             }
 
-            // Проверяем, не существует ли уже такой ID
             if (personDAO.isIdExists(id)) {
                 System.out.println("❌ ID " + id + " already exists! Please choose another ID.");
                 System.out.println("Next available ID: " + personDAO.getNextAvailableId());
@@ -170,7 +168,6 @@ public class HospitalMenuImpl implements HospitalMenu {
                 throw new InvalidMedicalDataException("Diagnosis cannot be empty!");
             }
 
-            // Используем конструктор с указанным ID
             Patient patient = new Patient(id, name, age);
             patient.setDiagnosis(diagnosis);
 
@@ -183,7 +180,6 @@ public class HospitalMenuImpl implements HospitalMenu {
         }
     }
 
-    // ========== ADD DOCTOR WITH AUTO ID ==========
 
     private void addDoctorAutoId() {
         System.out.println("\n" + "─".repeat(40));
@@ -209,7 +205,6 @@ public class HospitalMenuImpl implements HospitalMenu {
         System.out.println("Assigned ID: " + doctor.getId());
     }
 
-    // ========== ADD DOCTOR WITH MANUAL ID ==========
 
     private void addDoctorManualId() {
         System.out.println("\n" + "─".repeat(40));
@@ -221,13 +216,11 @@ public class HospitalMenuImpl implements HospitalMenu {
         System.out.print("Enter doctor ID: ");
         int id = Integer.parseInt(scanner.nextLine());
 
-        // Если ID = 0, используем авто-генерацию
         if (id == 0) {
             addDoctorAutoId();
             return;
         }
 
-        // Проверяем ID
         if (personDAO.isIdExists(id)) {
             System.out.println("❌ ID " + id + " already exists! Please choose another ID.");
             System.out.println("Next available ID: " + personDAO.getNextAvailableId());
@@ -243,7 +236,6 @@ public class HospitalMenuImpl implements HospitalMenu {
         System.out.print("Enter specialization: ");
         String specialization = scanner.nextLine();
 
-        // Используем конструктор с указанным ID
         Doctor doctor = new Doctor(id, name, age);
         doctor.setSpecialization(specialization);
 
@@ -252,7 +244,6 @@ public class HospitalMenuImpl implements HospitalMenu {
         System.out.println("\n✅ Doctor added successfully with manual ID: " + id);
     }
 
-    // ========== ADD MEDICAL PROCEDURE ==========
 
     private void addMedicalProcedure() {
         System.out.println("\n" + "─".repeat(40));
@@ -286,7 +277,6 @@ public class HospitalMenuImpl implements HospitalMenu {
         }
     }
 
-    // ========== SHOW NEXT AVAILABLE ID ==========
 
     private void showNextAvailableId() {
         System.out.println("\n" + "─".repeat(40));
@@ -299,7 +289,6 @@ public class HospitalMenuImpl implements HospitalMenu {
         System.out.println("     Enter 0 for auto-generated ID.");
     }
 
-    // ========== VIEW ALL PEOPLE ==========
 
     private void viewAllPeople() {
         System.out.println("\n" + "─".repeat(50));
@@ -322,7 +311,6 @@ public class HospitalMenuImpl implements HospitalMenu {
         }
     }
 
-    // ========== VIEW PATIENTS ONLY ==========
 
     private void viewPatientsOnly() {
         System.out.println("\n" + "─".repeat(50));
@@ -345,7 +333,6 @@ public class HospitalMenuImpl implements HospitalMenu {
         }
     }
 
-    // ========== VIEW DOCTORS ONLY ==========
 
     private void viewDoctorsOnly() {
         System.out.println("\n" + "─".repeat(50));
@@ -368,7 +355,6 @@ public class HospitalMenuImpl implements HospitalMenu {
         }
     }
 
-    // ========== VIEW MEDICAL PROCEDURES ==========
 
     private void viewMedicalProcedures() {
         System.out.println("\n" + "─".repeat(50));
@@ -390,7 +376,6 @@ public class HospitalMenuImpl implements HospitalMenu {
         }
     }
 
-    // ========== UPDATE PERSON ==========
 
     private void updatePerson() {
         System.out.println("\n" + "─".repeat(50));
@@ -458,7 +443,6 @@ public class HospitalMenuImpl implements HospitalMenu {
         }
     }
 
-    // ========== DELETE PERSON ==========
 
     private void deletePerson() {
         System.out.println("\n" + "─".repeat(50));
@@ -492,7 +476,6 @@ public class HospitalMenuImpl implements HospitalMenu {
         }
     }
 
-    // ========== SEARCH BY NAME ==========
 
     private void searchByName() {
         System.out.println("\n" + "─".repeat(50));
@@ -516,7 +499,6 @@ public class HospitalMenuImpl implements HospitalMenu {
         }
     }
 
-    // ========== SEARCH BY AGE RANGE ==========
 
     private void searchByAgeRange() {
         System.out.println("\n" + "─".repeat(50));
@@ -534,7 +516,6 @@ public class HospitalMenuImpl implements HospitalMenu {
             return;
         }
 
-        // Фильтрация по возрасту
         List<Person> people = personDAO.getAllPeople();
         List<Person> results = new ArrayList<>();
 
@@ -556,7 +537,6 @@ public class HospitalMenuImpl implements HospitalMenu {
         }
     }
 
-    // ========== SEARCH PATIENTS BY DIAGNOSIS ==========
 
     private void searchPatientsByDiagnosis() {
         System.out.println("\n" + "─".repeat(50));
@@ -592,7 +572,6 @@ public class HospitalMenuImpl implements HospitalMenu {
         }
     }
 
-    // ========== SEARCH DOCTORS BY SPECIALIZATION ==========
 
     private void searchDoctorsBySpecialization() {
         System.out.println("\n" + "─".repeat(50));
@@ -628,7 +607,6 @@ public class HospitalMenuImpl implements HospitalMenu {
         }
     }
 
-    // ========== POLYMORPHISM DEMO: ALL PERFORM DUTIES ==========
 
     private void makeAllPerformDuties() {
         System.out.println("\n" + "─".repeat(50));
@@ -657,7 +635,6 @@ public class HospitalMenuImpl implements HospitalMenu {
         System.out.println("- Java decides at runtime which method to call");
     }
 
-    // ========== INTERFACE DEMO: PERFORM TREATMENT ==========
 
     private void performTreatmentDemo() {
         System.out.println("\n" + "─".repeat(50));
@@ -665,7 +642,6 @@ public class HospitalMenuImpl implements HospitalMenu {
         System.out.println("Objects implementing Treatable interface:");
         System.out.println("─".repeat(50));
 
-        // 1. Show patients (implement Treatable)
         List<Person> people = personDAO.getAllPeople();
         int treatableCount = 0;
 
@@ -678,7 +654,6 @@ public class HospitalMenuImpl implements HospitalMenu {
             }
         }
 
-        // 2. Show medical procedures (implement Treatable)
         if (!procedures.isEmpty()) {
             System.out.println("\nMedical procedures:");
             for (MedicalProcedure procedure : procedures) {
